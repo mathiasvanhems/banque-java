@@ -4,13 +4,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    //@GeneratedValue(strategy = GenerationType.AUTO) // utilise deśsequence inerne
+    @SequenceGenerator(name="product_id_seq",sequenceName="product_id_seq",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="product_id_seq")
+    private int id;
 
     private String name;
 
@@ -19,17 +22,17 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String name, String description) {
+    public Product(int id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
