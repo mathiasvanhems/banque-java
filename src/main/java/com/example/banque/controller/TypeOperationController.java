@@ -36,7 +36,7 @@ public class TypeOperationController {
     }
     
     @GetMapping("edit/{id}" )
-    public TypeOperation getTypeOperationbyId(@PathVariable int id) {
+    public TypeOperation getTypeOperationById(@PathVariable int id) {
     	return typeOperationRepository.findById(id).orElseThrow();
     }
     
