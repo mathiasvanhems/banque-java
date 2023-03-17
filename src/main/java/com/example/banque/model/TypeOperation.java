@@ -35,7 +35,7 @@ public class TypeOperation {
     public TypeOperation() {
     }
 
-	public TypeOperation(String libelle, String recurrence, Collection<Operation> operations, boolean sortie) {
+	public TypeOperation(String libelle, String recurrence, boolean sortie) {
 		this.libelle = libelle;
 		this.recurrence = recurrence;
 		this.sortie = sortie;

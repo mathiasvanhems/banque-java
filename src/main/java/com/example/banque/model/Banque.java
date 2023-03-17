@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 public class Banque {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.AUTO) // utilise deśsequence inerne
+    //@GeneratedValue(strategy = GenerationType.AUTO) // utilise des sequences interne
     @SequenceGenerator(name="banque_id_seq",sequenceName="banque_id_seq",allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="banque_id_seq")
     private int id;

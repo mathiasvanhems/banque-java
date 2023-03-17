@@ -25,7 +25,7 @@ public class BanqueController {
     }
     
     @GetMapping
-    public ResponseEntity getAllProducts() {
+    public ResponseEntity getAll() {
         return ResponseEntity.ok(this.banqueRepository.findAll());
     }
     
@@ -37,7 +37,6 @@ public class BanqueController {
     
     @GetMapping("edit/{id}" )
     public Banque getBanquebyId(@PathVariable int id) {
-    	banqueRepository.findById(id);
     	return banqueRepository.findById(id).orElseThrow();
     }
     

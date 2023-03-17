@@ -38,8 +38,8 @@ public class Operation {
 	public Operation() {
 	}
 
-	public Operation(int id, BigDecimal montant, String detail, Date dateOperation, TypeOperation type) {
-		this.id = id;
+	public Operation( BigDecimal montant, String detail, Date dateOperation, TypeOperation type) {
+
 		this.montant = montant;
 		this.detail = detail;
 		this.dateOperation = dateOperation;
