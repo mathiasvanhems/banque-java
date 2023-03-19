@@ -3,11 +3,13 @@ package com.example.banque.controller;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.banque.model.Banque;
 import com.example.banque.repository.BanqueRepository;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/banque")
@@ -24,13 +26,20 @@ public class BanqueController {
     public ResponseEntity getAll() {
         return ResponseEntity.ok(this.banqueRepository.findAll());
     }
-    
-    @PostMapping("edit" )
-    public void createNewBanque() {
-    	Banque banque = new Banque(toBigDecimal(1234.56), toBigDecimal(1234.56), toBigDecimal(1234.56), toBigDecimal(654.2));
-    	banqueRepository.save(banque);
+
+    /**
+     * Create et Update
+     * @param banque
+     * @param response
+     * @return
+     */
+    @PostMapping(value="save", consumes = "application/json", produces = "application/json")
+    public Banque updateBanque(@RequestBody Banque banque, HttpServletResponse response) {
+        response.setHeader("Location", ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/edit/" + banque.getId()).toUriString());
+        return banqueRepository.save(banque);
     }
-    
+
     @GetMapping("edit/{id}" )
     public Banque getBanquebyId(@PathVariable int id) {
     	return banqueRepository.findById(id).orElseThrow();
