@@ -7,4 +7,7 @@ import com.example.banque.model.Historique;
 
 @Repository
 public interface HistoriqueRepository extends JpaRepository<Historique, Integer> {
+
+
+
 }

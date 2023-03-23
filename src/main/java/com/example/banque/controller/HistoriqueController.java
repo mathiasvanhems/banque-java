@@ -1,20 +1,14 @@
 package com.example.banque.controller;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Optional;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.banque.model.Historique;
 import com.example.banque.repository.HistoriqueRepository;
-
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 @RestController
@@ -32,15 +26,21 @@ public class HistoriqueController {
         return ResponseEntity.ok(this.historiqueRepository.findAll());
     }
     
-    @PostMapping("edit" )
-    public void createNewHistorique() {
-    	Historique historique = new Historique(toBigDecimal(1234.56),new Date());
+    @PostMapping(value="save", consumes = "application/json", produces = "application/json")
+    public void updateHistorique(@RequestBody Historique historique, HttpServletResponse response) {
+        response.setHeader("Location", ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/edit/" + historique.getId()).toUriString());
     	historiqueRepository.save(historique);
     }
     
     @GetMapping("edit/{id}" )
     public Historique getHistoriquebyId(@PathVariable int id) {
     	return historiqueRepository.findById(id).orElseThrow();
+    }
+
+    @GetMapping("getMontant/{annee}" )
+    public Historique getAllMontantFromYear(@PathVariable int annee) {
+        return historiqueRepository.findById(annee).orElseThrow();
     }
     
     @DeleteMapping("delete/{id}" )
