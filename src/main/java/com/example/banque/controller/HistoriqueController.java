@@ -1,6 +1,10 @@
 package com.example.banque.controller;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +42,11 @@ public class HistoriqueController {
     	return historiqueRepository.findById(id).orElseThrow();
     }
 
-    @GetMapping("getMontant/{annee}" )
-    public Historique getAllMontantFromYear(@PathVariable int annee) {
-        return historiqueRepository.findById(annee).orElseThrow();
+    @GetMapping("get/{annee}" )
+    public List<Historique> getAllMontantFromYear(@PathVariable String annee) throws ParseException {
+        Date debut=new SimpleDateFormat("yyyy-MM-dd").parse(annee.concat("-01-01"));
+        Date fin=new SimpleDateFormat("yyyy-MM-dd").parse(annee.concat("-12-31"));
+        return historiqueRepository.findByAnnee(debut,fin);
     }
     
     @DeleteMapping("delete/{id}" )

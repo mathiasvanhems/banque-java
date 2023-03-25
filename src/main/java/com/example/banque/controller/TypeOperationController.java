@@ -3,16 +3,14 @@ package com.example.banque.controller;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import com.example.banque.model.Banque;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.banque.model.TypeOperation;
 import com.example.banque.repository.TypeOperationRepository;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/type")
@@ -26,15 +24,17 @@ public class TypeOperationController {
     
     @GetMapping
     public ResponseEntity getAll() {
-        return ResponseEntity.ok(this.typeOperationRepository.findAll());
+        return ResponseEntity.ok(this.typeOperationRepository.findAllOrder());
     }
     
-    @PostMapping("edit" )
-    public void createNewTypeOperation() {
-    	TypeOperation type = new TypeOperation("test","NA",true);
+    @PostMapping(value="save", consumes = "application/json", produces = "application/json")
+    public void updateBanqueTypeOperation(@RequestBody TypeOperation type, HttpServletResponse response) {
+    	//TypeOperation type = new TypeOperation("test","NA",true);
+        response.setHeader("Location", ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/edit/" + type.getId()).toUriString());
     	typeOperationRepository.save(type);
     }
-    
+
     @GetMapping("edit/{id}" )
     public TypeOperation getTypeOperationById(@PathVariable int id) {
     	return typeOperationRepository.findById(id).orElseThrow();
