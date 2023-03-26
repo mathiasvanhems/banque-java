@@ -37,6 +37,7 @@ public class BanqueController {
     public Banque updateBanque(@RequestBody Banque banque, HttpServletResponse response) {
         response.setHeader("Location", ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/edit/" + banque.getId()).toUriString());
+        System.out.println(banque);
         return banqueRepository.save(banque);
     }
 

@@ -28,7 +28,7 @@ public class TypeOperationController {
     }
     
     @PostMapping(value="save", consumes = "application/json", produces = "application/json")
-    public void updateBanqueTypeOperation(@RequestBody TypeOperation type, HttpServletResponse response) {
+    public void updateTypeOperation(@RequestBody TypeOperation type, HttpServletResponse response) {
     	//TypeOperation type = new TypeOperation("test","NA",true);
         response.setHeader("Location", ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/edit/" + type.getId()).toUriString());

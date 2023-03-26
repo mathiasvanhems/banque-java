@@ -4,18 +4,15 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Optional;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.banque.model.Operation;
 import com.example.banque.model.TypeOperation;
 import com.example.banque.repository.OperationRepository;
 import com.example.banque.repository.TypeOperationRepository;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/operation")
@@ -31,16 +28,18 @@ public class OperationController {
     
     @GetMapping
     public ResponseEntity getAll() {
-        return ResponseEntity.ok(this.operationRepository.findAll());
+        return ResponseEntity.ok(this.operationRepository.findAllWithType());
     }
     
-    @PostMapping("edit" )
-    public void createNewOperation() {
+    @PostMapping(value="save", consumes = "application/json", produces = "application/json")
+    public void updateOperation(@RequestBody Operation operation, HttpServletResponse response) {
 
-    	TypeOperation type = safeCast(typeOperationRepository.findById((int)3).orElseThrow(),TypeOperation.class).orElseGet(TypeOperation::new);
+    	//TypeOperation type = safeCast(typeOperationRepository.findById((int)3).orElseThrow(),TypeOperation.class).orElseGet(TypeOperation::new);
     	
-    	Operation operation = new Operation(toBigDecimal(1234.56),"test",new Date(),type);
-    	operationRepository.save(operation);
+    	//Operation operation = new Operation(toBigDecimal(1234.56),"test",new Date(),type);
+        response.setHeader("Location", ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/edit/" + operation.getId()).toUriString());
+        operationRepository.save(operation);
     }
 
     @GetMapping("edit/{id}" )
